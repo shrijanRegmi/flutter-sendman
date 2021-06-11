@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.send_man">
+    package="com.sendman.app">
    <application
         android:label="Send Man"
         android:icon="@mipmap/ic_launcher">

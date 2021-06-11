@@ -1,4 +1,4 @@
-package com.example.send_man
+package com.sendman.app
 
 import io.flutter.embedding.android.FlutterActivity
 
