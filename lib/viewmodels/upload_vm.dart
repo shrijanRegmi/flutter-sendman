@@ -14,6 +14,14 @@ class UploadVM extends ChangeNotifier {
 
   File get imgFile => _imgFile;
   List<ImgUpload>? get coreImagesList => Provider.of<List<ImgUpload>?>(context);
+  List<ImgUpload>? get todayImages => coreImagesList
+      ?.where((element) => checkDate(
+          DateTime.fromMillisecondsSinceEpoch(element.updatedAt ?? 0)))
+      .toList();
+  List<ImgUpload>? get otherImages => coreImagesList
+      ?.where((element) => !checkDate(
+          DateTime.fromMillisecondsSinceEpoch(element.updatedAt ?? 0)))
+      .toList();
 
   // get image from gallery
   void getImgFromGallery() async {
@@ -30,5 +38,14 @@ class UploadVM extends ChangeNotifier {
   // upload image to firebase
   void uploadImage() async {
     await ImgUploadProvider().storeImgUrl(imgFile);
+  }
+
+  // check if given date is today or not
+  bool checkDate(final DateTime date) {
+    final _now = DateTime.now();
+
+    return date.year == _now.year &&
+        date.month == _now.month &&
+        date.day == _now.day;
   }
 }

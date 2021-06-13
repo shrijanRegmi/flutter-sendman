@@ -27,10 +27,36 @@ class UploadScreen extends StatelessWidget {
                             color: Colors.orangeAccent,
                           ),
                         )
-                      : ImgGrid(
-                          images: vm.coreImagesList!
-                              .map((e) => e.imgUrl ?? '')
-                              .toList(),
+                      : SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              if (vm.todayImages?.isNotEmpty ?? false)
+                                Column(
+                                  children: [
+                                    TextBuilder.body('Today'),
+                                    ImgGrid(
+                                      coreImgs: vm.todayImages ?? [],
+                                    ),
+                                  ],
+                                ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              if (vm.otherImages?.isNotEmpty ?? false)
+                                Column(
+                                  children: [
+                                    TextBuilder.body('Other'),
+                                    ImgGrid(
+                                      coreImgs: vm.otherImages ?? [],
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
                         ),
                 ),
               ],
