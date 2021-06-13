@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:send_man/utils/app_colors.dart';
+import 'package:send_man/views/screens/upload_screen.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 import 'package:send_man/views/widgets/common_widgets/text_builder.dart';
 
@@ -18,7 +19,14 @@ class UploadDownloadButtons extends StatelessWidget {
             kcLightOrangeColor,
             Colors.deepOrange.withOpacity(0.3),
             Icons.keyboard_arrow_up,
-            () {},
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => UploadScreen(),
+                ),
+              );
+            },
           ),
         ),
         SizedBox(
@@ -30,7 +38,14 @@ class UploadDownloadButtons extends StatelessWidget {
             kcLightPurpleColor,
             Colors.deepPurple.withOpacity(0.3),
             Icons.keyboard_arrow_down,
-            () {},
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => UploadScreen(),
+                ),
+              );
+            },
           ),
         ),
       ],
@@ -60,7 +75,7 @@ class UploadDownloadButtons extends StatelessWidget {
                   Transform.rotate(
                     angle: pi / 180 * 30,
                     child: RoundIconButton(
-                      onPressed: () {},
+                      onPressed: onPressed,
                       icon: Icon(icon),
                       shadow: BoxShadow(
                         color: shadowColor,

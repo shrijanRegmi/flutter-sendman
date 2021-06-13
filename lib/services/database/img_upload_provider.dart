@@ -6,9 +6,6 @@ import 'package:send_man/services/database/collections.dart';
 import 'package:send_man/services/storage/storage_provider.dart';
 
 class ImgUploadProvider {
-  final ImgUpload imgUpload;
-  ImgUploadProvider({required this.imgUpload});
-
   final _ref = FirebaseFirestore.instance;
 
   // save img url to firestore
@@ -20,7 +17,7 @@ class ImgUploadProvider {
               imgFile: imgFile, path: '$coreImagesCol/${_coreImagesRef.id}')
           .uploadFile();
 
-      final _imgUpload = imgUpload.copyWith(
+      final _imgUpload = ImgUpload(
         id: _coreImagesRef.id,
         imgUrl: _imgUrl,
         updatedAt: DateTime.now().millisecondsSinceEpoch,
@@ -35,5 +32,19 @@ class ImgUploadProvider {
       print('Error!!!: Saving image urls to firestore');
       return null;
     }
+  }
+
+  // get images from firestore
+  List<ImgUpload> _imgUploadFromFirebase(
+      final QuerySnapshot<Map<String, dynamic>> colSnap) {
+    return colSnap.docs.map((e) => ImgUpload.fromJson(e.data())).toList();
+  }
+
+  // stream of images
+  Stream<List<ImgUpload>> get coreImagesStream {
+    return _ref
+        .collection(coreImagesCol)
+        .snapshots()
+        .map(_imgUploadFromFirebase);
   }
 }

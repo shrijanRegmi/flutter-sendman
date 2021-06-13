@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   UploadDownloadButtons(),
                   SizedBox(
-                    height: 20.0,
+                    height: 40.0,
                   ),
                   _connectBuilder(),
                 ],
@@ -85,15 +85,21 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _connectBuilder() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextBuilder.heading2('Connect across'),
-        SizedBox(
-          height: 50.0,
-        ),
-        Image.asset('assets/images/connect.png')
-      ],
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextBuilder.heading2('Connect across'),
+          SizedBox(
+            height: 20.0,
+          ),
+          Expanded(
+            child: Center(
+              child: Image.asset('assets/images/connect.png'),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
