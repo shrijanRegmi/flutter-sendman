@@ -12,7 +12,7 @@ class ImgUploadProvider {
   final _ref = FirebaseFirestore.instance;
 
   // save img url to firestore
-  Future<ImgUpload?> storeImgUrl(final File imgFile) async {
+  Future<CoreImage?> storeImgUrl(final File imgFile) async {
     try {
       final _coreImagesRef = _ref.collection(coreImagesCol).doc();
 
@@ -20,7 +20,7 @@ class ImgUploadProvider {
               imgFile: imgFile, path: '$coreImagesCol/${_coreImagesRef.id}')
           .uploadFile();
 
-      final _imgUpload = ImgUpload(
+      final _imgUpload = CoreImage(
         id: _coreImagesRef.id,
         imgUrl: _imgUrl,
         updatedAt: DateTime.now().millisecondsSinceEpoch,
@@ -58,13 +58,13 @@ class ImgUploadProvider {
   }
 
   // get images from firestore
-  List<ImgUpload> _imgUploadFromFirebase(
+  List<CoreImage> _imgUploadFromFirebase(
       final QuerySnapshot<Map<String, dynamic>> colSnap) {
-    return colSnap.docs.map((e) => ImgUpload.fromJson(e.data())).toList();
+    return colSnap.docs.map((e) => CoreImage.fromJson(e.data())).toList();
   }
 
   // stream of images
-  Stream<List<ImgUpload>> get coreImagesStream {
+  Stream<List<CoreImage>> get coreImagesStream {
     return _ref
         .collection(coreImagesCol)
         .orderBy('updated_at', descending: true)

@@ -14,7 +14,7 @@ class WrapperBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        StreamProvider<List<ImgUpload>?>.value(
+        StreamProvider<List<CoreImage>?>.value(
           value: ImgUploadProvider().coreImagesStream,
           initialData: null,
         ),

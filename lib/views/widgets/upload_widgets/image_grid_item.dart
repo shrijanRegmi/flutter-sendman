@@ -7,7 +7,7 @@ import 'package:send_man/views/screens/image_view_screen.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 
 class ImgGridItem extends StatelessWidget {
-  final ImgUpload coreImg;
+  final CoreImage coreImg;
   final ImgGridVm? vm;
   const ImgGridItem({
     Key? key,

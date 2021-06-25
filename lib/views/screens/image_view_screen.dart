@@ -9,7 +9,7 @@ import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 
 class ImageViewScreen extends StatefulWidget {
-  final ImgUpload coreImg;
+  final CoreImage coreImg;
   const ImageViewScreen({
     Key? key,
     required this.coreImg,
@@ -96,15 +96,25 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
     );
   }
 
-  Widget _iconsContainer(final ImgUpload coreImg) {
+  Widget _iconsContainer(final CoreImage coreImg) {
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              RoundIconButton(
+                padding: const EdgeInsets.all(15.0),
+                icon: Icon(
+                  Icons.delete_outline_rounded,
+                ),
+                shadow: BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                ),
+              ),
               RoundIconButton(
                 padding: const EdgeInsets.all(15.0),
                 icon: Icon(
@@ -116,9 +126,6 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
                 ),
                 onPressed: () =>
                     ImgUploadProvider().downloadImage(coreImg.imgUrl ?? ''),
-              ),
-              SizedBox(
-                width: 20.0,
               ),
               RoundIconButton(
                 padding: const EdgeInsets.all(15.0),

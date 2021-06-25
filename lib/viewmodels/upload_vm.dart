@@ -13,12 +13,12 @@ class UploadVM extends ChangeNotifier {
   late File _imgFile;
 
   File get imgFile => _imgFile;
-  List<ImgUpload>? get coreImagesList => Provider.of<List<ImgUpload>?>(context);
-  List<ImgUpload>? get todayImages => coreImagesList
+  List<CoreImage>? get coreImagesList => Provider.of<List<CoreImage>?>(context);
+  List<CoreImage>? get todayImages => coreImagesList
       ?.where((element) => checkDate(
           DateTime.fromMillisecondsSinceEpoch(element.updatedAt ?? 0)))
       .toList();
-  List<ImgUpload>? get otherImages => coreImagesList
+  List<CoreImage>? get otherImages => coreImagesList
       ?.where((element) => !checkDate(
           DateTime.fromMillisecondsSinceEpoch(element.updatedAt ?? 0)))
       .toList();

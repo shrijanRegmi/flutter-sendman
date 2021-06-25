@@ -1,28 +1,28 @@
-class ImgUpload {
+class CoreImage {
   final String? id;
   final String? imgUrl;
   final int? updatedAt;
 
-  ImgUpload({
+  CoreImage({
     this.id,
     this.imgUrl,
     this.updatedAt,
   });
 
-  ImgUpload copyWith({
+  CoreImage copyWith({
     final String? id,
     final String? imgUrl,
     final int? updatedAt,
   }) {
-    return ImgUpload(
+    return CoreImage(
       id: id ?? this.id,
       imgUrl: imgUrl ?? this.imgUrl,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
-  static ImgUpload fromJson(final Map<String, dynamic> data) {
-    return ImgUpload(
+  static CoreImage fromJson(final Map<String, dynamic> data) {
+    return CoreImage(
       id: data['id'],
       imgUrl: data['image_urls'] ?? [],
       updatedAt: data['updated_at'],

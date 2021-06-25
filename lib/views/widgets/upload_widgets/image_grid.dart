@@ -6,7 +6,7 @@ import 'package:send_man/views/widgets/common_widgets/empty_builder.dart';
 import 'package:send_man/views/widgets/upload_widgets/image_grid_item.dart';
 
 class ImgGrid extends StatelessWidget {
-  final List<ImgUpload> coreImgs;
+  final List<CoreImage> coreImgs;
   const ImgGrid({
     Key? key,
     required this.coreImgs,
