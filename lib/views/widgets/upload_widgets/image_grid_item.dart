@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:send_man/models/image_upload_model.dart';
+import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/utils/app_colors.dart';
 import 'package:send_man/views/screens/image_view_screen.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
@@ -35,9 +35,9 @@ class ImgGridItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Hero(
-            tag: coreImg.imgUrl ?? '',
+            tag: coreImg.imgUrls![0],
             child: CachedNetworkImage(
-              imageUrl: coreImg.imgUrl ?? '',
+              imageUrl: coreImg.imgUrls![0],
               fit: BoxFit.cover,
               imageBuilder: (context, imgProvider) {
                 return Container(

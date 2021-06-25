@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:send_man/models/image_upload_model.dart';
+import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/views/screens/upload_details_screen.dart';
 
@@ -64,11 +64,6 @@ class UploadVM extends ChangeNotifier {
     }
   }
 
-  // upload image to firebase
-  void uploadImage() async {
-    await ImgUploadProvider().storeImgUrl(imgFile!);
-  }
-
   // remove file
   void removeFile(final File removeImg) {
     final _newImgs = _imgFiles;
@@ -113,7 +108,17 @@ class UploadVM extends ChangeNotifier {
   }
 
   // publish image
-  void publishImages() {}
+  void publishImages() async {
+    final _result = await ImgUploadProvider().uploadCoreImg(
+      _imgFiles,
+      _disDate ?? _currentDate.add(Duration(days: 7)),
+      _disTime ?? TimeOfDay.now(),
+    );
+
+    if (_result != null) {
+      Navigator.pop(context);
+    }
+  }
 
   // update value of _imgFiles
   void updateImgFiles(final List<File> newImgs) {

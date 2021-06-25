@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:send_man/models/image_upload_model.dart';
+import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/viewmodels/image_grid_vm.dart';
 import 'package:send_man/viewmodels/vm_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/empty_builder.dart';

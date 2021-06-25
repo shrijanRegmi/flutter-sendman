@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:send_man/models/image_upload_model.dart';
+import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 
@@ -21,7 +21,7 @@ class ImageViewScreen extends StatefulWidget {
 
 class _ImageViewScreenState extends State<ImageViewScreen> {
   bool _isButtonVisible = false;
-  // int _currentImg = 0;
+  int _currentImg = 0;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => setState(() => _isButtonVisible = !_isButtonVisible),
@@ -47,24 +47,27 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
             children: [
               Positioned.fill(
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                 ),
               ),
               PhotoViewGallery.builder(
-                itemCount: 1,
+                itemCount: (widget.coreImg.imgUrls ?? []).length,
                 builder: (context, index) {
-                  final _imgUrl = widget.coreImg.imgUrl ?? '';
+                  final _imgUrl = widget.coreImg.imgUrls![index];
+                  print(_imgUrl);
 
                   return PhotoViewGalleryPageOptions(
                     imageProvider: CachedNetworkImageProvider(_imgUrl),
-                    initialScale: PhotoViewComputedScale.covered,
+                    initialScale: PhotoViewComputedScale.contained,
                     filterQuality: FilterQuality.high,
-                    maxScale: PhotoViewComputedScale.covered * 2,
+                    maxScale: PhotoViewComputedScale.contained * 2,
                     minScale: PhotoViewComputedScale.contained,
                     heroAttributes: PhotoViewHeroAttributes(tag: _imgUrl),
                   );
                 },
-                // onPageChanged: (index) => setState(() => _currentImg = index),
+                onPageChanged: (index) => setState(() => _currentImg = index),
               ),
               if (_isButtonVisible)
                 Positioned(
@@ -114,6 +117,13 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
                   color: Colors.black26,
                   blurRadius: 10.0,
                 ),
+                onPressed: () {
+                  ImgUploadProvider().deleteImg(
+                    coreImg,
+                    coreImg.imgUrls![_currentImg],
+                  );
+                  Navigator.pop(context);
+                },
               ),
               RoundIconButton(
                 padding: const EdgeInsets.all(15.0),
@@ -124,8 +134,9 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
                   color: Colors.black26,
                   blurRadius: 10.0,
                 ),
-                onPressed: () =>
-                    ImgUploadProvider().downloadImage(coreImg.imgUrl ?? ''),
+                onPressed: () => ImgUploadProvider().downloadImage(
+                  coreImg.imgUrls![_currentImg],
+                ),
               ),
               RoundIconButton(
                 padding: const EdgeInsets.all(15.0),
