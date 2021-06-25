@@ -47,6 +47,26 @@ class UploadDetailScreen extends StatelessWidget {
                     SizedBox(
                       height: 50.0,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 20.0,
+                              horizontal: 10.0,
+                            ),
+                            child: TextBuilder.body(
+                              'Note: If disappearing date or time is not provided then it defaults to 7 days from the date of publication.',
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     _buttonBuilder(vm),
                     SizedBox(
                       height: 30.0,

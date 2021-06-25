@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
+import 'package:send_man/services/dialog/diaglog_provider.dart';
 import 'package:send_man/views/screens/upload_details_screen.dart';
 
 class UploadVM extends ChangeNotifier {
@@ -109,15 +110,21 @@ class UploadVM extends ChangeNotifier {
 
   // publish image
   void publishImages() async {
-    final _result = await ImgUploadProvider().uploadCoreImg(
-      _imgFiles,
-      _disDate ?? _currentDate.add(Duration(days: 7)),
-      _disTime ?? TimeOfDay.now(),
-    );
+    DialogProvider(context).showConfirmationDialog(
+      'Are you sure you want to publish the images ?',
+      'Updating the images or date/time is not possible in future, however you can delete or hide the images.',
+      onPressedPositive: () async {
+        final _result = await ImgUploadProvider().uploadCoreImg(
+          _imgFiles,
+          _disDate ?? _currentDate.add(Duration(days: 7)),
+          _disTime ?? TimeOfDay.now(),
+        );
 
-    if (_result != null) {
-      Navigator.pop(context);
-    }
+        if (_result != null) {
+          Navigator.pop(context);
+        }
+      },
+    );
   }
 
   // update value of _imgFiles

@@ -6,6 +6,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
+import 'package:send_man/services/dialog/diaglog_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 
 class ImageViewScreen extends StatefulWidget {
@@ -118,11 +119,17 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
                   blurRadius: 10.0,
                 ),
                 onPressed: () {
-                  ImgUploadProvider().deleteImg(
-                    coreImg,
-                    coreImg.imgUrls![_currentImg],
+                  DialogProvider(context).showConfirmationDialog(
+                    'Are you sure you want to delete this image ?',
+                    'Deletion is permanent and cannot be undone.',
+                    onPressedPositive: () {
+                      ImgUploadProvider().deleteImg(
+                        coreImg,
+                        coreImg.imgUrls![_currentImg],
+                      );
+                      Navigator.pop(context);
+                    },
                   );
-                  Navigator.pop(context);
                 },
               ),
               RoundIconButton(
