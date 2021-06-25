@@ -55,15 +55,14 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
               ),
               PhotoViewGallery.builder(
                 itemCount: (widget.coreImg.imgUrls ?? []).length,
+                scrollPhysics: BouncingScrollPhysics(),
                 builder: (context, index) {
                   final _imgUrl = widget.coreImg.imgUrls![index];
-                  print(_imgUrl);
-
                   return PhotoViewGalleryPageOptions(
                     imageProvider: CachedNetworkImageProvider(_imgUrl),
                     initialScale: PhotoViewComputedScale.contained,
                     filterQuality: FilterQuality.high,
-                    maxScale: PhotoViewComputedScale.contained * 2,
+                    maxScale: PhotoViewComputedScale.contained * 4,
                     minScale: PhotoViewComputedScale.contained,
                     heroAttributes: PhotoViewHeroAttributes(tag: _imgUrl),
                   );

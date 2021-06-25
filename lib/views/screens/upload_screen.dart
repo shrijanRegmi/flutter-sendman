@@ -53,7 +53,8 @@ class UploadScreen extends StatelessWidget {
                                   SizedBox(
                                     height: 20.0,
                                   ),
-                                  if (vm.otherImages?.isNotEmpty ?? false)
+                                  if ((vm.otherImages?.isNotEmpty ?? false) &&
+                                      (vm.todayImages?.isNotEmpty ?? false))
                                     Column(
                                       children: [
                                         TextBuilder.body('Other'),
