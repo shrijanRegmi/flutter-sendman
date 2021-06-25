@@ -37,7 +37,7 @@ class ImgGrid extends StatelessWidget {
 
                   return ImgGridItem(
                     coreImg: _coreImg,
-                    vm: vm,
+                    shareImg: (val) => vm.shareImage(val),
                   );
                 },
               );

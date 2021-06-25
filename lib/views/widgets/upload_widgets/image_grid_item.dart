@@ -2,17 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:send_man/models/image_upload_model.dart';
 import 'package:send_man/utils/app_colors.dart';
-import 'package:send_man/viewmodels/image_grid_vm.dart';
 import 'package:send_man/views/screens/image_view_screen.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 
 class ImgGridItem extends StatelessWidget {
   final CoreImage coreImg;
-  final ImgGridVm? vm;
+  final Function(String)? shareImg;
   const ImgGridItem({
     Key? key,
     required this.coreImg,
-    this.vm,
+    this.shareImg,
   }) : super(key: key);
 
   @override
@@ -57,7 +56,7 @@ class ImgGridItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           RoundIconButton(
-                            onPressed: () => vm!.shareImage(coreImg.id ?? ''),
+                            onPressed: () => shareImg!(coreImg.id ?? ''),
                             padding: const EdgeInsets.all(5.0),
                             shadow: BoxShadow(
                               color: Colors.black26,

@@ -88,7 +88,7 @@ class UploadScreen extends StatelessWidget {
           Transform.rotate(
             angle: pi / 180 * 30,
             child: RoundIconButton(
-              onPressed: vm.getImgFromGallery,
+              onPressed: vm.getInitialImgFromGallery,
               padding: const EdgeInsets.all(15.0),
               icon: Icon(Icons.keyboard_arrow_up_rounded),
               shadow: BoxShadow(
