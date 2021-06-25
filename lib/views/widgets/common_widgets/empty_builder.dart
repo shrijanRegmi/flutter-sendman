@@ -37,47 +37,54 @@ class _EmptyBuilderState extends State<EmptyBuilder>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Lottie.asset(
-          'assets/lottie/chat_empty.json',
-          width: MediaQuery.of(context).size.width - 150.0,
-          height: MediaQuery.of(context).size.width - 150.0,
-          controller: _animationController,
-          onLoaded: (comp) {
-            _animationController
-              ..duration = Duration(milliseconds: 3000)
-              ..repeat();
-          },
-        ),
-        if (widget.title != null)
-          Text(
-            '${widget.title}',
-            style: TextStyle(
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Lottie.asset(
+            'assets/lottie/chat_empty.json',
+            width: MediaQuery.of(context).size.width - 150.0,
+            height: MediaQuery.of(context).size.width - 150.0,
+            controller: _animationController,
+            onLoaded: (comp) {
+              _animationController
+                ..duration = Duration(milliseconds: 3000)
+                ..repeat();
+            },
+          ),
+          if (widget.title != null)
+            Text(
+              '${widget.title}',
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
-                color: Color(0xff3D4A5A)),
-          ),
-        SizedBox(
-          height: 10.0,
-        ),
-        if (widget.subTitle != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
-              '${widget.subTitle}',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Color(0xff3D4A5A),
+                color: Color(
+                  0xff3D4A5A,
+                ),
               ),
               textAlign: TextAlign.center,
             ),
+          SizedBox(
+            height: 10.0,
           ),
-        SizedBox(
-          height: 100.0,
-        ),
-      ],
+          if (widget.subTitle != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                '${widget.subTitle}',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Color(0xff3D4A5A),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          SizedBox(
+            height: 100.0,
+          ),
+        ],
+      ),
     );
   }
 }
