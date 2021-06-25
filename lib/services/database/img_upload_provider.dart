@@ -11,6 +11,9 @@ import 'package:send_man/utils/variables.dart';
 import 'package:share/share.dart';
 
 class ImgUploadProvider {
+  final String? uid;
+  ImgUploadProvider({this.uid});
+
   final _ref = FirebaseFirestore.instance;
 
   // save img url to firestore
@@ -34,6 +37,7 @@ class ImgUploadProvider {
       }
 
       final _coreImg = CoreImage(
+        uid: uid,
         id: _coreImagesRef.id,
         imgUrls: _imgs,
         disDate: disDate.millisecondsSinceEpoch,
@@ -104,6 +108,7 @@ class ImgUploadProvider {
   Stream<List<CoreImage>> get coreImagesStream {
     return _ref
         .collection(coreImagesCol)
+        .where('uid', isEqualTo: uid)
         .orderBy('updated_at', descending: true)
         .limit(20)
         .snapshots()

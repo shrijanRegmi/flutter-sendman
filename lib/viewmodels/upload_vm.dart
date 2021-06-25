@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -110,11 +111,15 @@ class UploadVM extends ChangeNotifier {
 
   // publish image
   void publishImages() async {
+    final _androidInfo =
+        Provider.of<AndroidDeviceInfo?>(context, listen: false);
     DialogProvider(context).showConfirmationDialog(
       'Are you sure you want to publish the images ?',
       'Updating the images or date/time is not possible in future, however you can delete or hide the images.',
       onPressedPositive: () async {
-        final _result = await ImgUploadProvider().uploadCoreImg(
+        final _result = await ImgUploadProvider(
+          uid: _androidInfo?.androidId ?? '',
+        ).uploadCoreImg(
           _imgFiles,
           _disDate ?? _currentDate.add(Duration(days: 7)),
           _disTime ?? TimeOfDay.now(),

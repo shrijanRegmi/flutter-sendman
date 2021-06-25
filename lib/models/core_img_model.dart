@@ -1,4 +1,5 @@
 class CoreImage {
+  final String? uid;
   final String? id;
   final List<String>? imgUrls;
   final int? updatedAt;
@@ -6,6 +7,7 @@ class CoreImage {
   final String? disTime;
 
   CoreImage({
+    this.uid,
     this.id,
     this.imgUrls,
     this.updatedAt,
@@ -14,6 +16,7 @@ class CoreImage {
   });
 
   CoreImage copyWith({
+    final String? uid,
     final String? id,
     final List<String>? imgUrl,
     final int? updatedAt,
@@ -21,6 +24,7 @@ class CoreImage {
     final String? disTime,
   }) {
     return CoreImage(
+      uid: uid ?? this.uid,
       id: id ?? this.id,
       imgUrls: imgUrl ?? this.imgUrls,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -31,6 +35,7 @@ class CoreImage {
 
   static CoreImage fromJson(final Map<String, dynamic> data) {
     return CoreImage(
+      uid: data['uid'],
       id: data['id'],
       imgUrls: data['image_urls'] != null
           ? List<String>.from(data['image_urls'])
@@ -43,6 +48,7 @@ class CoreImage {
 
   Map<String, dynamic> toJson() {
     return {
+      'uid': uid,
       'id': id,
       'image_urls': imgUrls,
       'updated_at': updatedAt,

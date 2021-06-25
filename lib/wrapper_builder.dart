@@ -1,3 +1,4 @@
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/core_img_model.dart';
@@ -12,10 +13,14 @@ class WrapperBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _androidInfo = Provider.of<AndroidDeviceInfo?>(context);
+
     return MultiProvider(
       providers: [
         StreamProvider<List<CoreImage>?>.value(
-          value: ImgUploadProvider().coreImagesStream,
+          value: ImgUploadProvider(
+            uid: _androidInfo?.androidId,
+          ).coreImagesStream,
           initialData: null,
         ),
       ],
