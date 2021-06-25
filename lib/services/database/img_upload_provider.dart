@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:send_man/helpers/date_time_helper.dart';
 import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/collections.dart';
 import 'package:send_man/services/storage/storage_provider.dart';
 import 'package:send_man/utils/variables.dart';
+import 'package:send_man/viewmodels/upload_status_vm.dart';
 import 'package:share/share.dart';
 
 class ImgUploadProvider {
@@ -18,6 +20,7 @@ class ImgUploadProvider {
 
   // save img url to firestore
   Future<CoreImage?> uploadCoreImg(
+    final UploadStatusVM uploadStatusVm,
     final List<File> imgFiles,
     final DateTime disDate,
     final TimeOfDay disTime,
@@ -27,13 +30,22 @@ class ImgUploadProvider {
       final _imgs = <String>[];
 
       for (int i = 0; i < imgFiles.length; i++) {
+        final _path =
+            '$coreImagesCol/${_coreImagesRef.id}/${DateTime.now().millisecondsSinceEpoch}_${_coreImagesRef.id}';
+
+        await Future.delayed(Duration(milliseconds: 2000));
+        uploadStatusVm.updateProgress(0.0);
+
         final _imgUrl = await StorageProvider(
           imgFile: imgFiles[i],
-          path:
-              '$coreImagesCol/${_coreImagesRef.id}/${DateTime.now().millisecondsSinceEpoch}_${_coreImagesRef.id}',
+          path: _path,
+          onProgressUpdate: (progress) {
+            uploadStatusVm.updateProgress(progress);
+          },
         ).uploadFile();
 
         _imgs.add(_imgUrl);
+        uploadStatusVm.increaseUploadedImgCount(1);
       }
 
       final _coreImg = CoreImage(
@@ -46,12 +58,16 @@ class ImgUploadProvider {
       );
 
       await _coreImagesRef.set(_coreImg.toJson());
-      print('Success: Saving image urls to firestore');
+      await Future.delayed(Duration(milliseconds: 2000));
+      uploadStatusVm.completeUpload();
+      Fluttertoast.showToast(msg: 'Upload Complete');
 
+      print('Success: Saving image urls to firestore');
       return _coreImg;
     } catch (e) {
       print(e);
       print('Error!!!: Saving image urls to firestore');
+      uploadStatusVm.completeUpload();
       return null;
     }
   }
@@ -68,7 +84,7 @@ class ImgUploadProvider {
           'image_urls': FieldValue.arrayRemove([imgUrl])
         });
       }
-
+      await Fluttertoast.showToast(msg: 'Deleted Successfully');
       print('Success: Deleting img $imgUrl');
       return 'Success';
     } catch (e) {
@@ -81,7 +97,9 @@ class ImgUploadProvider {
   // download image
   Future downloadImage(final String imgUrl) async {
     try {
-      return await ImageDownloader.downloadImage(imgUrl);
+      await Fluttertoast.showToast(msg: 'Saving...');
+      await ImageDownloader.downloadImage(imgUrl);
+      return await Fluttertoast.showToast(msg: 'Photo saved');
     } catch (e) {
       print(e);
       print("Error!!!: Downloading Image");

@@ -6,6 +6,7 @@ import 'package:send_man/viewmodels/vm_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/empty_builder.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 import 'package:send_man/views/widgets/common_widgets/text_builder.dart';
+import 'package:send_man/views/widgets/common_widgets/upload_status_builder.dart';
 import 'package:send_man/views/widgets/upload_widgets/image_grid.dart';
 
 class UploadScreen extends StatelessWidget {
@@ -20,53 +21,62 @@ class UploadScreen extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                _titleBuilder(vm),
                 Expanded(
-                  child: vm.coreImagesList == null
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.orangeAccent,
-                          ),
-                        )
-                      : vm.coreImagesList!.isEmpty
-                          ? EmptyBuilder(
-                              title: 'Oh No...',
-                              subTitle:
-                                  "Looks like you haven't uploaded any images yet! Press the upload button on the top right corner to upload your first image.",
-                            )
-                          : SingleChildScrollView(
-                              physics: BouncingScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  if (vm.todayImages?.isNotEmpty ?? false)
-                                    Column(
+                  child: Column(
+                    children: [
+                      _titleBuilder(vm),
+                      Expanded(
+                        child: vm.coreImagesList == null
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.orangeAccent,
+                                ),
+                              )
+                            : vm.coreImagesList!.isEmpty
+                                ? EmptyBuilder(
+                                    title: 'Oh No...',
+                                    subTitle:
+                                        "Looks like you haven't uploaded any images yet! Press the upload button on the top right corner to upload your first image.",
+                                  )
+                                : SingleChildScrollView(
+                                    physics: BouncingScrollPhysics(),
+                                    child: Column(
                                       children: [
-                                        TextBuilder.body('Today'),
-                                        ImgGrid(
-                                          coreImgs: vm.todayImages ?? [],
+                                        SizedBox(
+                                          height: 10.0,
                                         ),
+                                        if (vm.todayImages?.isNotEmpty ?? false)
+                                          Column(
+                                            children: [
+                                              TextBuilder.body('Today'),
+                                              ImgGrid(
+                                                coreImgs: vm.todayImages ?? [],
+                                              ),
+                                            ],
+                                          ),
+                                        SizedBox(
+                                          height: 20.0,
+                                        ),
+                                        if ((vm.otherImages?.isNotEmpty ??
+                                                false) &&
+                                            (vm.todayImages?.isNotEmpty ??
+                                                false))
+                                          Column(
+                                            children: [
+                                              TextBuilder.body('Other'),
+                                              ImgGrid(
+                                                coreImgs: vm.otherImages ?? [],
+                                              ),
+                                            ],
+                                          ),
                                       ],
                                     ),
-                                  SizedBox(
-                                    height: 20.0,
                                   ),
-                                  if ((vm.otherImages?.isNotEmpty ?? false) &&
-                                      (vm.todayImages?.isNotEmpty ?? false))
-                                    Column(
-                                      children: [
-                                        TextBuilder.body('Other'),
-                                        ImgGrid(
-                                          coreImgs: vm.otherImages ?? [],
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              ),
-                            ),
+                      ),
+                    ],
+                  ),
                 ),
+                UploadStatusBuilder(),
               ],
             ),
           ),

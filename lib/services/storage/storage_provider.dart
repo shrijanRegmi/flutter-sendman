@@ -1,13 +1,14 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageProvider {
   final File imgFile;
   final String path;
+  final Function(double)? onProgressUpdate;
   StorageProvider({
     required this.imgFile,
     required this.path,
+    this.onProgressUpdate,
   });
 
   // save file to firebase storage
@@ -17,6 +18,15 @@ class StorageProvider {
       final _storage = FirebaseStorage.instance;
       final _ref = _storage.ref().child(path);
       final _uploadTask = _ref.putFile(imgFile);
+
+      _uploadTask.snapshotEvents.listen((event) {
+        var _progress =
+            event.bytesTransferred.toDouble() / event.totalBytes.toDouble();
+
+        print(_progress);
+
+        if (onProgressUpdate != null) onProgressUpdate!(_progress);
+      });
 
       await _uploadTask.whenComplete(() => print('Upload Complete'));
 

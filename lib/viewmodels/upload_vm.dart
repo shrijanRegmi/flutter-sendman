@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/core_img_model.dart';
+import 'package:send_man/models/upload_status_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/services/dialog/diaglog_provider.dart';
+import 'package:send_man/viewmodels/upload_status_vm.dart';
 import 'package:send_man/views/screens/upload_details_screen.dart';
 
 class UploadVM extends ChangeNotifier {
@@ -113,21 +115,27 @@ class UploadVM extends ChangeNotifier {
   void publishImages() async {
     final _androidInfo =
         Provider.of<AndroidDeviceInfo?>(context, listen: false);
+
+    final _uploadStatusVm = Provider.of<UploadStatusVM>(context, listen: false);
+
     DialogProvider(context).showConfirmationDialog(
       'Are you sure you want to publish the images ?',
       'Updating the images or date/time is not possible in future, however you can delete or hide the images.',
       onPressedPositive: () async {
-        final _result = await ImgUploadProvider(
+        Navigator.pop(context);
+
+        _uploadStatusVm.initializeUploadStatus(
+          UploadStatus(total: _imgFiles.length, uploaded: 0),
+        );
+
+        await ImgUploadProvider(
           uid: _androidInfo?.androidId ?? '',
         ).uploadCoreImg(
+          _uploadStatusVm,
           _imgFiles,
           _disDate ?? _currentDate.add(Duration(days: 7)),
           _disTime ?? TimeOfDay.now(),
         );
-
-        if (_result != null) {
-          Navigator.pop(context);
-        }
       },
     );
   }
