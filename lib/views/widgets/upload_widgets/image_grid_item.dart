@@ -49,12 +49,27 @@ class ImgGridItem extends StatelessWidget {
                     ),
                   ),
                   padding: const EdgeInsets.all(10.0),
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Text(
+                              '${coreImg.imgUrls?.length}',
+                              style: TextStyle(
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                           RoundIconButton(
                             onPressed: () => shareImg!(coreImg.id ?? ''),
                             padding: const EdgeInsets.all(5.0),

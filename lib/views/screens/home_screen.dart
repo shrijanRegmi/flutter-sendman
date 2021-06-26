@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:send_man/viewmodels/home_vm.dart';
 import 'package:send_man/viewmodels/vm_provider.dart';
-import 'package:send_man/views/widgets/common_widgets/avatar_builder.dart';
 import 'package:send_man/views/widgets/common_widgets/text_builder.dart';
 import 'package:send_man/views/widgets/home_widgets/upload_download_buttons.dart';
 
@@ -52,9 +51,12 @@ class HomeScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        AvatarBuilder(
-          imgUrl:
-              'https://img.freepik.com/free-photo/young-handsome-man-with-beard-isolated-keeping-arms-crossed-frontal-position_1368-132662.jpg?size=626&ext=jpg&ga=GA1.2.136948160.1615680000',
+        // AvatarBuilder(
+        //   imgUrl:
+        //       'https://img.freepik.com/free-photo/young-handsome-man-with-beard-isolated-keeping-arms-crossed-frontal-position_1368-132662.jpg?size=626&ext=jpg&ga=GA1.2.136948160.1615680000',
+        // ),
+        SizedBox(
+          height: 20.0,
         ),
       ],
     );
