@@ -11,10 +11,10 @@ class UploadStatusVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  // increase uploaded image count
-  increaseUploadedImgCount(final int count) {
+  // increase uploading image count
+  updateUploadedImgCount(final int count) {
     _uploadStatus = _uploadStatus?.copyWith(
-      uploaded: (_uploadStatus?.uploaded ?? 0) + count,
+      uploading: count,
     );
 
     notifyListeners();

@@ -11,7 +11,7 @@ class UploadStatusBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final _uploadStatusVm = Provider.of<UploadStatusVM>(context);
 
-    final _uploaded = _uploadStatusVm.uploadStatus?.uploaded ?? 0;
+    final _uploaded = _uploadStatusVm.uploadStatus?.uploading ?? 0;
     final _total = _uploadStatusVm.uploadStatus?.total ?? 0;
     final _progress = _uploadStatusVm.uploadStatus?.progress ?? 0.0;
     final _isDone = _uploadStatusVm.uploadStatus?.done ?? true;
@@ -40,7 +40,7 @@ class UploadStatusBuilder extends StatelessWidget {
                 "Uploading...",
               ),
               TextBuilder.heading5(
-                "$_uploaded/$_total",
+                "$_uploaded of $_total",
               ),
             ],
           ),

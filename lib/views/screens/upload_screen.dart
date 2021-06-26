@@ -54,16 +54,16 @@ class UploadScreen extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                        SizedBox(
-                                          height: 20.0,
-                                        ),
-                                        if ((vm.otherImages?.isNotEmpty ??
-                                                false) &&
-                                            (vm.todayImages?.isNotEmpty ??
-                                                false))
+                                        if (vm.todayImages?.isNotEmpty ?? false)
+                                          SizedBox(
+                                            height: 20.0,
+                                          ),
+                                        if (vm.otherImages?.isNotEmpty ?? false)
                                           Column(
                                             children: [
-                                              TextBuilder.body('Other'),
+                                              if (vm.todayImages?.isNotEmpty ??
+                                                  false)
+                                                TextBuilder.body('Other'),
                                               ImgGrid(
                                                 coreImgs: vm.otherImages ?? [],
                                               ),

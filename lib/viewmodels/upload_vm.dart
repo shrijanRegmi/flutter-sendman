@@ -125,7 +125,10 @@ class UploadVM extends ChangeNotifier {
         Navigator.pop(context);
 
         _uploadStatusVm.initializeUploadStatus(
-          UploadStatus(total: _imgFiles.length, uploaded: 0),
+          UploadStatus(
+            total: _imgFiles.length,
+            uploading: 1,
+          ),
         );
 
         await ImgUploadProvider(

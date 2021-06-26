@@ -35,6 +35,7 @@ class ImgUploadProvider {
 
         await Future.delayed(Duration(milliseconds: 2000));
         uploadStatusVm.updateProgress(0.0);
+        uploadStatusVm.updateUploadedImgCount(i + 1);
 
         final _imgUrl = await StorageProvider(
           imgFile: imgFiles[i],
@@ -45,14 +46,15 @@ class ImgUploadProvider {
         ).uploadFile();
 
         _imgs.add(_imgUrl);
-        uploadStatusVm.increaseUploadedImgCount(1);
       }
 
       final _coreImg = CoreImage(
         uid: uid,
         id: _coreImagesRef.id,
         imgUrls: _imgs,
-        disDate: disDate.millisecondsSinceEpoch,
+        disDate: disDate
+            .add(Duration(hours: disTime.hour, minutes: disTime.minute))
+            .millisecondsSinceEpoch,
         disTime: DateTimeHelper().getFormattedTime(disTime),
         updatedAt: DateTime.now().millisecondsSinceEpoch,
       );
@@ -60,7 +62,7 @@ class ImgUploadProvider {
       await _coreImagesRef.set(_coreImg.toJson());
       await Future.delayed(Duration(milliseconds: 2000));
       uploadStatusVm.completeUpload();
-      Fluttertoast.showToast(msg: 'Upload Complete');
+      Fluttertoast.showToast(msg: 'Uploaded Successfully');
 
       print('Success: Saving image urls to firestore');
       return _coreImg;
