@@ -1,1 +1,1 @@
-const kWebLink = 'https://www.sendman.web.app';
+const kWebLink = 'https://send-man.web.app';
