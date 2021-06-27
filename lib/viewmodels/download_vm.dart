@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/progress_status_model.dart';
+import 'package:send_man/services/ads/ad_provider.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/viewmodels/progress_status_vm.dart';
 
@@ -12,6 +13,8 @@ class DownloadVm extends ChangeNotifier {
   TextEditingController _urlController = TextEditingController();
 
   TextEditingController get urlController => _urlController;
+  AdProvider get adProvider => Provider.of<AdProvider>(context, listen: false);
+  ProgressStatusVM get progressStatus => Provider.of<ProgressStatusVM>(context);
 
   // download image
   Future downloadImage() async {
@@ -50,6 +53,7 @@ class DownloadVm extends ChangeNotifier {
 
           Fluttertoast.showToast(msg: 'Downloaded successfully');
           _progressStatusVm.completeDownload();
+          adProvider.showInterstitialAd(forced: true);
         } else {
           Fluttertoast.showToast(msg: 'Image not found !');
         }

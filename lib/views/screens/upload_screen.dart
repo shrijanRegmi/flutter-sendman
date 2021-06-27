@@ -17,6 +17,9 @@ class UploadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return VMProvider<UploadVM>(
       vm: UploadVM(context),
+      onInit: (vm) {
+        vm.adProvider.loadInterstitialAd();
+      },
       builder: (context, vm) {
         return Scaffold(
           body: SafeArea(

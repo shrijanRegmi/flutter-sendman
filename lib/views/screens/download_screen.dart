@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:send_man/enums/progress_status_type.dart';
 import 'package:send_man/viewmodels/download_vm.dart';
@@ -15,6 +14,9 @@ class DownloadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return VMProvider<DownloadVm>(
       vm: DownloadVm(context),
+      onInit: (vm) {
+        vm.adProvider.loadInterstitialAd();
+      },
       builder: (context, vm) {
         return Scaffold(
           body: SafeArea(

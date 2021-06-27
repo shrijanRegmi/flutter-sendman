@@ -2,6 +2,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/core_img_model.dart';
+import 'package:send_man/services/ads/ad_provider.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/viewmodels/progress_status_vm.dart';
 
@@ -26,6 +27,9 @@ class WrapperBuilder extends StatelessWidget {
         ),
         ChangeNotifierProvider<ProgressStatusVM>(
           create: (context) => ProgressStatusVM(),
+        ),
+        ChangeNotifierProvider<AdProvider>(
+          create: (context) => AdProvider(),
         )
       ],
       child: builder(context),

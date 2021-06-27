@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:send_man/services/ads/ad_provider.dart';
 import 'package:send_man/utils/app_colors.dart';
 import 'package:send_man/views/screens/download_screen.dart';
 import 'package:send_man/views/screens/upload_screen.dart';
@@ -12,6 +14,8 @@ class UploadDownloadButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _adProvider = Provider.of<AdProvider>(context);
+
     return Row(
       children: [
         Expanded(
@@ -21,6 +25,7 @@ class UploadDownloadButtons extends StatelessWidget {
             Colors.deepOrange.withOpacity(0.3),
             Icons.keyboard_arrow_up,
             () {
+              _adProvider.showInterstitialAd();
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -40,6 +45,7 @@ class UploadDownloadButtons extends StatelessWidget {
             Colors.deepPurple.withOpacity(0.3),
             Icons.keyboard_arrow_down,
             () {
+              _adProvider.showInterstitialAd();
               Navigator.push(
                 context,
                 MaterialPageRoute(

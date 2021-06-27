@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:send_man/helpers/date_time_helper.dart';
+import 'package:send_man/services/ads/ad_provider.dart';
 import 'package:send_man/viewmodels/upload_vm.dart';
 import 'package:send_man/viewmodels/vm_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
@@ -10,9 +11,11 @@ import 'package:send_man/views/widgets/upload_widgets/upload_details_images_list
 
 class UploadDetailScreen extends StatelessWidget {
   final File initialImg;
+  final AdProvider adProvider;
   const UploadDetailScreen({
     Key? key,
     required this.initialImg,
+    required this.adProvider,
   }) : super(key: key);
 
   @override
@@ -187,7 +190,7 @@ class UploadDetailScreen extends StatelessWidget {
       children: [
         Expanded(
           child: MaterialButton(
-            onPressed: vm.publishImages,
+            onPressed: () => vm.publishImages(adProvider),
             padding: const EdgeInsets.all(20.0),
             color: Colors.orange,
             textColor: Colors.white,

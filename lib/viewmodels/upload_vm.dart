@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/models/progress_status_model.dart';
+import 'package:send_man/services/ads/ad_provider.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
 import 'package:send_man/services/dialog/diaglog_provider.dart';
 import 'package:send_man/viewmodels/progress_status_vm.dart';
@@ -39,6 +40,7 @@ class UploadVM extends ChangeNotifier {
   List<File> get imgFiles => _imgFiles;
   DateTime? get disDate => _disDate;
   TimeOfDay? get disTime => _disTime;
+  AdProvider get adProvider => Provider.of<AdProvider>(context, listen: false);
 
   // get initial image from gallery
   void getInitialImgFromGallery() async {
@@ -51,7 +53,10 @@ class UploadVM extends ChangeNotifier {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => UploadDetailScreen(initialImg: _imgFile!),
+          builder: (context) => UploadDetailScreen(
+            initialImg: _imgFile!,
+            adProvider: adProvider,
+          ),
         ),
       );
     }
@@ -113,7 +118,7 @@ class UploadVM extends ChangeNotifier {
   }
 
   // publish image
-  void publishImages() async {
+  void publishImages(final AdProvider adProvider) async {
     final _androidInfo =
         Provider.of<AndroidDeviceInfo?>(context, listen: false);
 
@@ -127,7 +132,6 @@ class UploadVM extends ChangeNotifier {
         'Updating the images or date/time is not possible in future, however you can delete or hide the images.',
         onPressedPositive: () async {
           Navigator.pop(context);
-
           _progressStatusVm.initializeUploadStatus(
             ProgressStatus(
               title: 'Uploading...',
@@ -145,6 +149,8 @@ class UploadVM extends ChangeNotifier {
             _disDate ?? _currentDate.add(Duration(days: 7)),
             _disTime ?? TimeOfDay.now(),
           );
+
+          adProvider.showInterstitialAd(forced: true);
         },
       );
     } else {
