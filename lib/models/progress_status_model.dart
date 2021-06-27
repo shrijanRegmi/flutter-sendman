@@ -1,23 +1,27 @@
-class UploadStatus {
+class ProgressStatus {
+  final String title;
   final int total;
   final int uploading;
   final bool done;
   final double progress;
 
-  UploadStatus({
+  ProgressStatus({
+    required this.title,
     required this.total,
     required this.uploading,
-    this.done = false,
+    this.done = true,
     this.progress = 0.0,
   });
 
-  UploadStatus copyWith({
+  ProgressStatus copyWith({
+    final String? title,
     final int? total,
     final int? uploading,
     final bool? done,
     final double? progress,
   }) {
-    return UploadStatus(
+    return ProgressStatus(
+      title: title ?? this.title,
       total: total ?? this.total,
       uploading: uploading ?? this.uploading,
       done: done ?? this.done,

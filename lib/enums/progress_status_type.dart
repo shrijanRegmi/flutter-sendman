@@ -1,0 +1,4 @@
+enum ProgressStatusType {
+  upload,
+  download,
+}

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:send_man/utils/app_colors.dart';
+import 'package:send_man/views/screens/download_screen.dart';
 import 'package:send_man/views/screens/upload_screen.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 import 'package:send_man/views/widgets/common_widgets/text_builder.dart';
@@ -42,7 +43,7 @@ class UploadDownloadButtons extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => UploadScreen(),
+                  builder: (_) => DownloadScreen(),
                 ),
               );
             },

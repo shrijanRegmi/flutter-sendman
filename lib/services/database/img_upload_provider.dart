@@ -9,7 +9,7 @@ import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/collections.dart';
 import 'package:send_man/services/storage/storage_provider.dart';
 import 'package:send_man/utils/variables.dart';
-import 'package:send_man/viewmodels/upload_status_vm.dart';
+import 'package:send_man/viewmodels/progress_status_vm.dart';
 import 'package:share/share.dart';
 
 class ImgUploadProvider {
@@ -20,7 +20,7 @@ class ImgUploadProvider {
 
   // save img url to firestore
   Future<CoreImage?> uploadCoreImg(
-    final UploadStatusVM uploadStatusVm,
+    final ProgressStatusVM uploadStatusVm,
     final List<File> imgFiles,
     final DateTime disDate,
     final TimeOfDay disTime,
@@ -28,20 +28,21 @@ class ImgUploadProvider {
     try {
       final _coreImagesRef = _ref.collection(coreImagesCol).doc();
       final _imgs = <String>[];
+      Fluttertoast.showToast(msg: 'Upload started...');
 
       for (int i = 0; i < imgFiles.length; i++) {
         final _path =
             '$coreImagesCol/${_coreImagesRef.id}/${DateTime.now().millisecondsSinceEpoch}_${_coreImagesRef.id}';
 
         await Future.delayed(Duration(milliseconds: 2000));
-        uploadStatusVm.updateProgress(0.0);
+        uploadStatusVm.updateUploadProgress(0.0);
         uploadStatusVm.updateUploadedImgCount(i + 1);
 
         final _imgUrl = await StorageProvider(
           imgFile: imgFiles[i],
           path: _path,
           onProgressUpdate: (progress) {
-            uploadStatusVm.updateProgress(progress);
+            uploadStatusVm.updateUploadProgress(progress);
           },
         ).uploadFile();
 
@@ -62,7 +63,7 @@ class ImgUploadProvider {
       await _coreImagesRef.set(_coreImg.toJson());
       await Future.delayed(Duration(milliseconds: 2000));
       uploadStatusVm.completeUpload();
-      Fluttertoast.showToast(msg: 'Uploaded Successfully');
+      Fluttertoast.showToast(msg: 'Uploaded successfully');
 
       print('Success: Saving image urls to firestore');
       return _coreImg;
@@ -99,9 +100,7 @@ class ImgUploadProvider {
   // download image
   Future downloadImage(final String imgUrl) async {
     try {
-      await Fluttertoast.showToast(msg: 'Saving...');
-      await ImageDownloader.downloadImage(imgUrl);
-      return await Fluttertoast.showToast(msg: 'Photo saved');
+      return await ImageDownloader.downloadImage(imgUrl);
     } catch (e) {
       print(e);
       print("Error!!!: Downloading Image");
@@ -115,6 +114,30 @@ class ImgUploadProvider {
     } catch (e) {
       print(e);
       print("Error!!!: Sharing Image");
+    }
+  }
+
+  // get single image from url
+  Future<CoreImage?> getSingleImageFromUrl(final String url) async {
+    try {
+      final _id = url.replaceAll('$kWebLink/', '');
+      final _coreImgRef = _ref.collection('core_images').doc(_id);
+      final _coreImgSnap = await _coreImgRef.get();
+
+      if (_coreImgSnap.exists) {
+        final _data = _coreImgSnap.data();
+
+        if (_data != null) {
+          final _coreImg = CoreImage.fromJson(_data);
+
+          print("Success: Getting image from url $url");
+          return _coreImg;
+        }
+      }
+    } catch (e) {
+      print(e);
+      print("Error!!!: Getting image from url $url");
+      return null;
     }
   }
 

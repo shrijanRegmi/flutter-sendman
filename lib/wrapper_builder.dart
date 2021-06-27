@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
-import 'package:send_man/viewmodels/upload_status_vm.dart';
+import 'package:send_man/viewmodels/progress_status_vm.dart';
 
 class WrapperBuilder extends StatelessWidget {
   final Function(BuildContext) builder;
@@ -24,8 +24,8 @@ class WrapperBuilder extends StatelessWidget {
           ).coreImagesStream,
           initialData: null,
         ),
-        ChangeNotifierProvider<UploadStatusVM>(
-          create: (context) => UploadStatusVM(),
+        ChangeNotifierProvider<ProgressStatusVM>(
+          create: (context) => ProgressStatusVM(),
         )
       ],
       child: builder(context),

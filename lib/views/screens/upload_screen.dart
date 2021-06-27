@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:send_man/enums/progress_status_type.dart';
 import 'package:send_man/viewmodels/upload_vm.dart';
 import 'package:send_man/viewmodels/vm_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/empty_builder.dart';
 import 'package:send_man/views/widgets/common_widgets/round_icon_button.dart';
 import 'package:send_man/views/widgets/common_widgets/text_builder.dart';
-import 'package:send_man/views/widgets/common_widgets/upload_status_builder.dart';
+import 'package:send_man/views/widgets/common_widgets/progress_status_builder.dart';
 import 'package:send_man/views/widgets/upload_widgets/image_grid.dart';
 
 class UploadScreen extends StatelessWidget {
@@ -76,7 +77,9 @@ class UploadScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                UploadStatusBuilder(),
+                ProgressStatusBuilder(
+                  type: ProgressStatusType.upload,
+                ),
               ],
             ),
           ),

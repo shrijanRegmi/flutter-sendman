@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:send_man/models/core_img_model.dart';
@@ -132,18 +133,23 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
                 },
               ),
               RoundIconButton(
-                padding: const EdgeInsets.all(15.0),
-                icon: Icon(
-                  Icons.arrow_downward_rounded,
-                ),
-                shadow: BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10.0,
-                ),
-                onPressed: () => ImgUploadProvider().downloadImage(
-                  coreImg.imgUrls![_currentImg],
-                ),
-              ),
+                  padding: const EdgeInsets.all(15.0),
+                  icon: Icon(
+                    Icons.arrow_downward_rounded,
+                  ),
+                  shadow: BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                  ),
+                  onPressed: () async {
+                    await Fluttertoast.showToast(msg: 'Download started...');
+                    await ImgUploadProvider().downloadImage(
+                      coreImg.imgUrls![_currentImg],
+                    );
+                    await Fluttertoast.showToast(
+                      msg: 'Downloaded successfully',
+                    );
+                  }),
               RoundIconButton(
                 padding: const EdgeInsets.all(15.0),
                 icon: Icon(
