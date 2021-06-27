@@ -85,23 +85,47 @@ class DownloadScreen extends StatelessWidget {
   }
 
   Widget _urlInputBuilder(final DownloadVm vm) {
-    return TextFormField(
-      controller: vm.urlController,
-      decoration: InputDecoration(
-        hintText: 'Image url...',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: Colors.grey,
+    return Column(
+      children: [
+        TextFormField(
+          controller: vm.urlController,
+          decoration: InputDecoration(
+            hintText: 'Image url...',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: Colors.grey,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: Colors.deepPurple,
+              ),
+            ),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: Colors.deepPurple,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: 10.0,
+                ),
+                child: TextBuilder.body(
+                  'Note: By pressing the download button on the top right corner, you will be downloading all the images that is related with this url.',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
+      ],
     );
   }
 }
