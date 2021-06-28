@@ -29,10 +29,11 @@ class ImgUploadProvider {
       final _coreImagesRef = _ref.collection(coreImagesCol).doc();
       final _imgs = <String>[];
       Fluttertoast.showToast(msg: 'Upload started...');
+      final _updatedAt = DateTime.now().millisecondsSinceEpoch;
 
       for (int i = 0; i < imgFiles.length; i++) {
         final _path =
-            '$coreImagesCol/${_coreImagesRef.id}/${DateTime.now().millisecondsSinceEpoch}_${_coreImagesRef.id}';
+            '$coreImagesCol/${_coreImagesRef.id}/${_updatedAt}_${_coreImagesRef.id}_${i + 1}';
 
         await Future.delayed(Duration(milliseconds: 2000));
         uploadStatusVm.updateUploadProgress(0.0);
@@ -57,7 +58,7 @@ class ImgUploadProvider {
             .add(Duration(hours: disTime.hour, minutes: disTime.minute))
             .millisecondsSinceEpoch,
         disTime: DateTimeHelper().getFormattedTime(disTime),
-        updatedAt: DateTime.now().millisecondsSinceEpoch,
+        updatedAt: _updatedAt,
       );
 
       await _coreImagesRef.set(_coreImg.toJson());
