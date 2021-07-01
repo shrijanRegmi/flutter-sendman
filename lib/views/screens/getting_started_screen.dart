@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:send_man/utils/app_colors.dart';
-import 'package:send_man/views/screens/home_screen.dart';
+import 'package:send_man/viewmodels/getting_started_vm.dart';
+import 'package:send_man/viewmodels/vm_provider.dart';
 import 'package:send_man/views/widgets/common_widgets/text_builder.dart';
 
 class GettingStartedScreen extends StatelessWidget {
@@ -10,50 +11,55 @@ class GettingStartedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: 20.0,
+    return VMProvider<GettingStartedVM>(
+      vm: GettingStartedVM(),
+      builder: (context, vm) {
+        return Scaffold(
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      _textBuilder(),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      _buttonBuilder(vm),
+                    ],
                   ),
-                  _textBuilder(),
-                  SizedBox(
-                    height: 20.0,
+                ),
+                Positioned(
+                  right: 0.0,
+                  top: 20.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _stipeBuilder(
+                        kcOrangeColor.withOpacity(0.7),
+                        150.0,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _stipeBuilder(
+                        kcOrangeColor,
+                        100.0,
+                      ),
+                    ],
                   ),
-                  _buttonBuilder(context),
-                ],
-              ),
+                ),
+              ],
             ),
-            Positioned(
-              right: 0.0,
-              top: 20.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  _stipeBuilder(
-                    kcOrangeColor.withOpacity(0.7),
-                    150.0,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  _stipeBuilder(
-                    kcOrangeColor,
-                    100.0,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -103,31 +109,35 @@ class GettingStartedScreen extends StatelessWidget {
     );
   }
 
-  Widget _buttonBuilder(final BuildContext context) {
+  Widget _buttonBuilder(final GettingStartedVM vm) {
     return Row(
       children: [
         Expanded(
           child: MaterialButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ),
-              );
-            },
+            onPressed: vm.onGettingStarted,
             color: kcOrangeColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
             textColor: Colors.white,
             padding: const EdgeInsets.all(19.0),
-            child: Text(
-              "Get Started",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14.0,
-              ),
-            ),
+            child: vm.isLoading
+                ? Container(
+                    width: 19.0,
+                    height: 19.0,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : Text(
+                    "Get Started",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.0,
+                    ),
+                  ),
           ),
         ),
       ],

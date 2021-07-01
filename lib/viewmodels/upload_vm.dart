@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:send_man/models/app_user.dart';
 import 'package:send_man/models/core_img_model.dart';
 import 'package:send_man/models/progress_status_model.dart';
 import 'package:send_man/services/database/img_upload_provider.dart';
@@ -114,8 +114,7 @@ class UploadVM extends ChangeNotifier {
 
   // publish image
   void publishImages() async {
-    final _androidInfo =
-        Provider.of<AndroidDeviceInfo?>(context, listen: false);
+    final _appUser = Provider.of<AppUser?>(context, listen: false);
 
     final _progressStatusVm =
         Provider.of<ProgressStatusVM>(context, listen: false);
@@ -138,7 +137,7 @@ class UploadVM extends ChangeNotifier {
           );
 
           await ImgUploadProvider(
-            uid: _androidInfo?.androidId ?? '',
+            uid: _appUser?.uid ?? '',
           ).uploadCoreImg(
             _progressStatusVm,
             _imgFiles,

@@ -1,7 +1,8 @@
-import 'package:device_info/device_info.dart';
 import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:send_man/models/app_user.dart';
+import 'package:send_man/services/auth/auth_provider.dart';
 import 'package:send_man/wrapper.dart';
 import 'package:send_man/wrapper_builder.dart';
 
@@ -14,14 +15,14 @@ class SendManApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureProvider<AndroidDeviceInfo?>.value(
-      value: DeviceInfoPlugin().androidInfo,
-      initialData: null,
-      child: FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, snap) {
-          if (snap.data != null)
-            return WrapperBuilder(
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snap) {
+        if (snap.data != null)
+          return StreamProvider<AppUser?>.value(
+            value: AuthProvider().user,
+            initialData: null,
+            child: WrapperBuilder(
               builder: (context) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
@@ -32,11 +33,11 @@ class SendManApp extends StatelessWidget {
                   home: Material(child: Wrapper()),
                 );
               },
-            );
+            ),
+          );
 
-          return Container();
-        },
-      ),
+        return Container();
+      },
     );
   }
 }
