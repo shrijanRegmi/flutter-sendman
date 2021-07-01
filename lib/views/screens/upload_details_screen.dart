@@ -188,11 +188,18 @@ class UploadDetailScreen extends StatelessWidget {
         Expanded(
           child: MaterialButton(
             onPressed: vm.publishImages,
-            padding: const EdgeInsets.all(20.0),
-            color: Colors.orange,
+            padding: const EdgeInsets.all(19.0),
+            color: Color(0xffff9a04),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
             textColor: Colors.white,
             child: Text(
-              'Publish',
+              "Publish",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0,
+              ),
             ),
           ),
         ),
