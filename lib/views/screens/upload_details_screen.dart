@@ -195,7 +195,11 @@ class UploadDetailScreen extends StatelessWidget {
             color: Colors.orange,
             textColor: Colors.white,
             child: Text(
-              'Publish',
+              "Publish",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0,
+              ),
             ),
           ),
         ),
